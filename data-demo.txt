@@ -1,0 +1,10 @@
+GET /api/account
+
+POST /api/createAccount
+{
+    "firstname": "spring",
+    "lastname": "boot",
+    "username": "springboot",
+    "password": "boot",
+    "contact": "1000/100 bangkok thailand"   
+}

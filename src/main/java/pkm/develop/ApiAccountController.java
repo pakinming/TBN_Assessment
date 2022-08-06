@@ -23,14 +23,8 @@ public class ApiAccountController {
     private AccountRepo accountRepo;
 
     @GetMapping("/account")
-    public Account getAllAccount(@RequestParam String name) {
-
-        Account account1 = new Account();
-        // Account account2 = new Account();
-
-        account1.setRole(RoleAccount.GUEST);
-
-        return account1;
+    public Iterable<Account> getAllAccount() {                     
+        return accountRepo.findAll();
     }
 
     @GetMapping("/accountName")
@@ -43,8 +37,8 @@ public class ApiAccountController {
     @PostMapping("/createAccount")
     public Account createAccount(@RequestBody Account account) {
         
-        accountRepo.save(account);
-        return account;
+        account.setRole(RoleAccount.GUEST);
+        return accountRepo.save(account);
     }
 
     @PostMapping("/updateAccount")
