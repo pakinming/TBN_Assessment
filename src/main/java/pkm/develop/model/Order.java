@@ -3,26 +3,25 @@ package pkm.develop.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import javax.persistence.GenerationType;
 
 @Entity
+@Table(name = "tblorder")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
+
     private int accountId;
+
     private String orderDate;
+
     private float totalAmount;
+
     private int orderStatus;
-
-    class OrderStatus {
-
-        static final int OFFER_ORDER = 1;
-        static final int PREPARE_ORDER = 2;
-        static final int SENDING = 3;
-        static final int RECEIVE = 4;
-    }
 
     public int getOrderId() {
         return orderId;
@@ -76,7 +75,8 @@ public class Order {
                 _orderStatus = OrderStatus.RECEIVE;
                 break;
             default:
-                throw new ExceptionInInitializerError("ERROR not found order status");
+                _orderStatus = 0;
+                break;
         }
         this.orderStatus = _orderStatus;
     }
@@ -116,6 +116,12 @@ public class Order {
         if (Float.floatToIntBits(totalAmount) != Float.floatToIntBits(other.totalAmount))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "{accountId:" + accountId + ", orderDate:" + orderDate + ", orderId:" + orderId + ", orderStatus:"
+                + orderStatus + ", totalAmount:" + totalAmount + "}";
     }
 
 }
