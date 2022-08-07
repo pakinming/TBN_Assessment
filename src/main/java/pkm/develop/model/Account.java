@@ -1,5 +1,6 @@
 package pkm.develop.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,9 +12,10 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
+    @Column(unique = true)
+    private String username;
     private String firstname;
     private String lastname;
-    private String username;
     private String password;
     private String contact;
     private RoleAccount role; 

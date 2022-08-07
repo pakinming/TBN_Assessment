@@ -14,14 +14,19 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
-
     private int accountId;
-
     private String orderDate;
-
     private float totalAmount;
-
     private int orderStatus;
+    private int menuId;
+
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
+    }
 
     public int getOrderId() {
         return orderId;

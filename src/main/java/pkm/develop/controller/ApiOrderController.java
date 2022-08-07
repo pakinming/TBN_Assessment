@@ -3,22 +3,22 @@ package pkm.develop.controller;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pkm.develop.model.Account;
-import pkm.develop.model.HttpResponse;
+import pkm.develop.model.Menu;
 import pkm.develop.model.Order;
 import pkm.develop.service.AccountRepo;
+import pkm.develop.service.MenuRepo;
 import pkm.develop.service.OrderRepo;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api")
@@ -27,22 +27,27 @@ public class ApiOrderController {
     private OrderRepo orderRepo;
     @Autowired
     private AccountRepo accountRepo;
+    @Autowired
+    private MenuRepo menuRepo;
 
     @GetMapping("/order/{orderId}")
-    public Order getOrder(@PathVariable("orderId") int orderId) {
+    public ResponseEntity<Order> getOrder(@PathVariable("orderId") int orderId) {
         try {
-            return orderRepo.findById(orderId).get();
+            return ResponseEntity.ok(orderRepo.findById(orderId).get());
         } catch (Exception e) {
-            return null;
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping("/order")
-    public Iterable<Order> getOrder() {
+    public ResponseEntity<Iterable<Order>> getOrder() {
         try {
-            return orderRepo.findAll();
+            return ResponseEntity.ok(orderRepo.findAll());
         } catch (Exception e) {
-            return null;
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
         }
     }
 
@@ -55,9 +60,10 @@ public class ApiOrderController {
             String formattedDate = myDateObj.format(myFormatObj);
 
             Account account = accountRepo.findById(order.getAccountId()).get();
+            Menu menu = menuRepo.findById(order.getMenuId()).get();
             order.setAccountId(account.getUserId());
             order.setOrderDate(formattedDate);
-            order.setTotalAmount(0.0f);
+            order.setMenuId(menu.getMenuId());
             return ResponseEntity.ok(orderRepo.save(order));
 
         } catch (Exception e) {
@@ -70,19 +76,19 @@ public class ApiOrderController {
         try {
 
             Account account = new Account();
-            System.out.println("orderRepo.existsById " + orderRepo.existsById(order.getOrderId()));
-            System.out.println("order.getAccountId " + order.getAccountId());
 
             if (orderRepo.existsById(order.getOrderId())) {
-              
+
                 account = accountRepo.findById(order.getAccountId()).get();
+                var orderResult = orderRepo.findById(order.getOrderId()).get();
 
-                System.out.println("getById " + account);
-                order.setAccountId(account.getUserId());
-                System.out.println("order lastupdate" + order);
+                orderResult.setOrderStatus(order.getOrderStatus());
+                orderResult.setTotalAmount(order.getTotalAmount());
+                orderResult.setAccountId(account.getUserId());
+                System.out.println("order lastupdate" + orderResult);
 
-                return ResponseEntity.ok(order);
-               
+                return ResponseEntity.ok(orderResult);
+
             }
             System.out.println(account.getUserId() == 0);
             return ResponseEntity.badRequest().body(order);

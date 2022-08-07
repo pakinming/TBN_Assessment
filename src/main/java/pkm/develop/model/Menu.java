@@ -3,34 +3,27 @@ package pkm.develop.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.GenerationType;
 
 @Entity
+@Table(name = "tblmenu")
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int menuId;
     private String menuName;
     private float price;
-    private int menuTypeId;
     private String menuImage;
     private String ingredients;
-    private int menuStatus;
+    private int accountId;
 
-
-    public Menu() {
+    public int getAccountId() {
+        return accountId;
     }
 
-
-    public Menu(int menuId, String menuName, float price, int menuTypeId, String menuImage, String ingredients,
-            int menuStatus) {
-        this.menuId = menuId;
-        this.menuName = menuName;
-        this.price = price;
-        this.menuTypeId = menuTypeId;
-        this.menuImage = menuImage;
-        this.ingredients = ingredients;
-        this.menuStatus = menuStatus;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public int getMenuId() {
@@ -57,14 +50,6 @@ public class Menu {
         this.price = price;
     }
 
-    public int getMenuTypeId() {
-        return menuTypeId;
-    }
-
-    public void setMenuTypeId(int menuTypeId) {
-        this.menuTypeId = menuTypeId;
-    }
-
     public String getMenuImage() {
         return menuImage;
     }
@@ -79,20 +64,6 @@ public class Menu {
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
-    }
-
-    public int getMenuStatus() {
-        return menuStatus;
-    }
-
-    public void setMenuStatus(int menuStatus) {
-        this.menuStatus = menuStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "Menu [ingredients=" + ingredients + ", menuId=" + menuId + ", menuImage=" + menuImage + ", menuName="
-                + menuName + ", menuStatus=" + menuStatus + ", menuTypeId=" + menuTypeId + ", price=" + price + "]";
     }
 
 }
