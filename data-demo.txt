@@ -1,5 +1,7 @@
 GET /api/account
 
+GET /api/account/<userId>
+
 POST /api/createAccount
 {
     "firstname": "spring",
@@ -8,3 +10,4 @@ POST /api/createAccount
     "password": "boot",
     "contact": "1000/100 bangkok thailand"   
 }
+

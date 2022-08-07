@@ -6,5 +6,6 @@ package pkm.develop.model;
 public enum RoleAccount {
     GUEST,
     USER,
-    ADMIN
+    ADMIN,
+    BLOCK
 }

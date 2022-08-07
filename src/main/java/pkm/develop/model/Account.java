@@ -1,13 +1,8 @@
 package pkm.develop.model;
 
-import org.springframework.hateoas.RepresentationModel;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.GenerationType;
 
 @Entity
@@ -21,26 +16,25 @@ public class Account {
     private String username;
     private String password;
     private String contact;
-    private RoleAccount role;
+    private RoleAccount role; 
 
     public Account() {
     }
 
-
-    public Account(@JsonProperty("userId") int userId,
+    public Account(int userId,
             String firstname,
             String lastname,
             String username,
             String password,
             String contact,
-            int role) {
+            RoleAccount role) {
         this.userId = userId;
-        // this.firstname = firstname;
-        // this.lastname = lastname;
-        // this.username = username;
-        // this.password = password;
-        // this.contact = contact;
-        // this.role = role;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.password = password;
+        this.contact = contact;
+        this.role = role;
     }
 
     public int getUserId() {
@@ -152,6 +146,12 @@ public class Account {
         } else if (!username.equals(other.username))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "{contact=" + contact + ", firstname=" + firstname + ", lastname=" + lastname + ", password="
+                + password + ", role=" + role + ", userId=" + userId + ", username=" + username + "}";
     }
 
 }
